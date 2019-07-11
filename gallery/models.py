@@ -65,11 +65,20 @@ class Post(models.Model):
     def __str__(self):
         return self.caption
 
+class Board(models.Model):
+    name        = models.CharField(max_length=20)
+    created_at  = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.name
+
 class Thread(models.Model):
     title       = models.CharField(max_length=49)
     created_at  = models.DateTimeField(auto_now_add=True)
     updated_at  = models.DateTimeField(auto_now_add=True)
     post        = models.ManyToManyField(Post, blank=True)
+    # TODO: something other than null as default?
+    board       = models.ForeignKey(Board, on_delete=models.CASCADE, null=True)
     
     class Meta:
         ordering = ('-created_at',)
