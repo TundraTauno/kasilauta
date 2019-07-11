@@ -8,6 +8,9 @@ pip3 install -r requirements.txt --user
 ./manage.py makemigrations
 ./manage.py migrate
 ./manage.py createsuperuser
+```
+Rename `example.env` -> `.env`. Notice: it must be explicitly `.env`, not `my.env` for example.
+```
 ./manage.py runserver
 ```
 Go to `https://localhost:8000`
