@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="{% static 'test.css' %}">
+
+
+<h1>Threads: </h1>
+{% for t, p in posts.items %}
+  {% if p %}
+    <a href="{% url 'thread' t.id %}">
+      <img src="{{p.thumbnail.url}}" alt="{{p.caption}}"/>
+    </a>
+  {% else %}
+    <a href="{% url 'thread' t.id %}">{{t.title}}</a>
+  {% endif %}
+  {% empty %}
+    <p>There aren't any threads.</p>
+{% endfor %}
+
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+    <h2>{{thread.title}}</h2>
+    <div class="row">
+    {% for p in posts %}
+      <div class="box">
+        <img src="{{p.thumbnail.url}}" alt="{{p.caption}}"/>
+        <ul class="meta-info">
+          <li hidden class="orig-img">{{p.original.url}}</li>
+          <li hidden class="thumb-img">{{p.thumbnail.url}}</li>
+        </ul>
+        <h3>{{p.caption}}</h3>
+        <p>{{p.text}}</p>
+      </div>
+      {% empty %}
+        <p>There aren't any posts.</p>
+    {% endfor %}
+    </div>
+	<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+	<script src="{% static 'thread.js' %}" charset="utf-8"></script>
+{% endblock content %}
