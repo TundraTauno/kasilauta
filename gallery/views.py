@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseNotFound
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
 
 from .models import Post, Thread, Board
 
@@ -17,20 +17,14 @@ def index(request):
 # id    - thread id
 # example: /b/123
 def thread_detail(request, name=None, id=None):
-    if name:
-        board = get_object_or_404(Board, name=name)
-    if id:
-        thread = get_object_or_404(Thread, pk=id)
-    
+    board = get_object_or_404(Board, name=name)
+    thread = get_object_or_404(Thread, pk=id)
     return render(request, 'thread_detail.html', {'thread': thread})
 
 # Board view.
 # name  - board name
 # example: /b/
 def board_view(request, name=None):
-    # redirect to frontpage if board is not found
-    if name:
-        threads = Thread.objects.filter(board__name=name)
-        if not threads:
-            return HttpResponseNotFound
+    board = get_object_or_404(Board, name=name)
+    threads = Thread.objects.filter(board__name=name)
     return render(request, 'board_view.html', {'threads': threads})

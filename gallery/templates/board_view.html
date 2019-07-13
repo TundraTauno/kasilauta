@@ -5,7 +5,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="{% static 'test.css' %}">
 
-<h1>Threads of board /{{threads.first.board.name}}/ - {{threads.first.board.description}}</h1>
+{% if threads.first.board %}
+  <h1>Threads of board /{{threads.first.board.name}}/ - {{threads.first.board.description}}</h1>
+{% endif %}
+
 {% for t in threads %}
   {% if t.first_post.thumbnail %}
     <a href="{% url 'thread_detail' t.board.name t.id %}">
@@ -15,7 +18,7 @@
     <a href="{% url 'thread_detail' t.board.name t.id %}">{{t.first_post}}</a>
   {% endif %}
   {% empty %}
-    <p>There aren't any boards.</p>
+    <p>There aren't any threads.</p>
 {% endfor %}
 
 {% endblock content %}
