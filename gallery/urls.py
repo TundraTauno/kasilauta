@@ -7,8 +7,12 @@ from django.conf.urls.static import static
 
 # Create your urls here.
 urlpatterns = [
+        # index
         path('', views.index, name='index'),
-        path('thread/<int:id>', views.thread, name='thread'),
+        # board view 
+        path('<slug:name>/', views.board_view, name='board_view'),
+        # thread detail 
+        path('<slug:name>/<int:id>', views.thread_detail, name='thread_detail'),
         ]
 
 # Static media files for test environment. Not suitable for production.

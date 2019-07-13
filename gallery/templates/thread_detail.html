@@ -3,14 +3,16 @@
 {% load staticfiles %}
     <h2>{{thread.title}}</h2>
     <div class="row">
-    {% for p in posts %}
+    {% for p in thread.all_posts %}
       <div class="box">
-        <img src="{{p.thumbnail.url}}" alt="{{p.caption}}"/>
+        <p>{{p.created_at}}</p>
+        {% if p.thumbnail %}
+        <img src="{{p.thumbnail.url}}" alt="{{p.text}}"/>
         <ul class="meta-info">
           <li hidden class="orig-img">{{p.original.url}}</li>
           <li hidden class="thumb-img">{{p.thumbnail.url}}</li>
         </ul>
-        <h3>{{p.caption}}</h3>
+        {% endif %}
         <p>{{p.text}}</p>
       </div>
       {% empty %}
