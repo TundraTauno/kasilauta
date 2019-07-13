@@ -9,7 +9,8 @@ from .models import Post, Thread, Board
 # example: /
 def index(request):
     threads = Thread.objects.all()
-    return render(request, 'main_view.html', {'threads': threads})
+    boards = Board.objects.all()
+    return render(request, 'main_view.html', {'threads': threads, 'boards': boards})
 
 # Detailed view for thread.
 # name  - board name

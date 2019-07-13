@@ -5,6 +5,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="{% static 'test.css' %}">
 
+<h1>Boards: </h1>
+{% for b in boards %}
+  <a href="{{b.name}}/">/{{b.name}}/</a>
+{% endfor %}
+
 <h1>Threads: </h1>
 {% for t in threads %}
   {% if t.first_post.thumbnail %}
