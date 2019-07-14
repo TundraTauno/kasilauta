@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 {% load staticfiles %}
-    <h2>{{thread.title}}</h2>
     <div class="row">
     {% for p in thread.all_posts %}
-      <div class="box">
-        <p>{{p.created_at}}</p>
+      <div id="{{p.pk}}" class="box">
+        <p><a href="#">#{{p.id}}</a> - {{p.created_at}}</p>
+        
         {% if p.thumbnail %}
         <img src="{{p.thumbnail.url}}" alt="{{p.text}}"/>
         <ul class="meta-info">
@@ -15,6 +15,18 @@
         {% endif %}
         <p>{{p.text}}</p>
       </div>
+     
+      {% if p.get_replies.count %}
+      <p>replies:
+      {% for r in p.get_replies %}
+        {% if r %} 
+        <a href="#">>>{{r.from_post.id}}</a>
+        {% endif %}
+      {% endfor %}
+      </p>
+      {% endif %}
+
+      <hr>
       {% empty %}
         <p>There aren't any posts.</p>
     {% endfor %}

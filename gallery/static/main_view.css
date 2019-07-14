@@ -12,9 +12,13 @@ img {
   box-shadow: 2px 2px 6px 0px  rgba(0, 0, 0, 0.45);
 }
 
+a {
+  color: red;
+	font-family: courier;
+}
+
 p {
-  color: white;
-  background-color: rgba(0, 0, 0, 0.6);
+  color: black;
 	font-family: courier;
 }
 

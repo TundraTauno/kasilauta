@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 from django.utils.text import Truncator
 
@@ -67,7 +69,34 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         if not self.make_thumbnail():
             raise Exception("Unable to create thumbnail.")
+        
         super(Post, self).save(*args, **kwargs)
+        
+        self.make_replies()
+
+    # Collect all IDs that start with ">>". Do regex in two parts since it's difficult 
+    # to craft it in to a single regex.
+    def make_replies(self):
+
+        # Match reply IDs as "word boundaries".
+        # Example: text ">>213 >>12" returns [>>213, >>12]
+        regex = '(^|\W)>>\d{1,11}'
+        pattern = re.compile(regex)
+       
+        # Filter out numbers.
+        # Example: text ">>213" returns "213"
+        regex_numbers = '(?<=>>)\d{1,11}'
+        pattern_numbers = re.compile(regex_numbers)
+
+        # Populate Reply table. Filter unique numbers using set.
+        unique_ids = set()
+        for numbers in re.finditer(regex, self.text):
+            filtered_num = re.search(pattern_numbers, numbers.group(0)).group(0)
+            unique_ids.add(int(filtered_num))
+
+        for uid in unique_ids:
+            reply = Reply(to_post=Post.objects.get(pk=uid), from_post=self)
+            reply.save()
 
     # Create thumbnail from the original Image
     def make_thumbnail(self):
@@ -118,3 +147,11 @@ class Post(models.Model):
     def very_short_text(self):
         return Truncator(self.text).chars(VERY_SHORT_TEXT)
 
+    def get_replies(self):
+        return Reply.objects.filter(to_post=self.pk)
+
+class Reply(models.Model):
+    to_post     = models.ForeignKey(Post, on_delete=models.SET_NULL, 
+            null=True, related_name='to_post')
+    from_post   = models.ForeignKey(Post, on_delete=models.CASCADE, 
+            null=True, related_name='from_post')
