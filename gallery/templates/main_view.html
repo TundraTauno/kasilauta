@@ -2,7 +2,6 @@
 {% block content %}
 {% load staticfiles %}
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="{% static 'test.css' %}">
 
 <h1>Boards: </h1>
@@ -11,16 +10,20 @@
 {% endfor %}
 
 <h1>Threads: </h1>
+<div class="row">
 {% for t in threads %}
   {% if t.first_post.thumbnail %}
-    <a href="{% url 'thread_detail' t.board.name t.first_post.thread.id %}">
-      <img src="{{t.first_post.thumbnail.url}}" alt="{{t.first_post}}"/>
-    </a>
+	<div class="img-box">
+		<a href="{% url 'thread_detail' t.board.name t.first_post.thread.id %}"> 
+		<img class="img" src="{{t.first_post.thumbnail.url}}" alt="{{t.first_post}}"></img>
+		<div class="img-text">{{t.first_post}}</div>
+		</a>
+	</div>
   {% else %}
     <a href="{% url 'thread_detail' t.board.name t.first_post.thread.id %}">{{t.first_post}}</a>
   {% endif %}
   {% empty %}
     <p>There aren't any threads.</p>
 {% endfor %}
-
+</div>
 {% endblock content %}
