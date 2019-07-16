@@ -151,7 +151,7 @@ class Post(models.Model):
         return Reply.objects.filter(to_post=self.pk)
 
 class Reply(models.Model):
-    to_post     = models.ForeignKey(Post, on_delete=models.SET_NULL, 
+    to_post     = models.ForeignKey(Post, on_delete=models.CASCADE, 
             null=True, related_name='to_post')
     from_post   = models.ForeignKey(Post, on_delete=models.CASCADE, 
             null=True, related_name='from_post')
