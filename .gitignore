@@ -4,3 +4,4 @@ backup/*
 *.pyc
 media/*
 !example.env
+gallery/migrations/*
