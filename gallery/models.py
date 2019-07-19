@@ -88,15 +88,22 @@ class Post(models.Model):
         regex_numbers = '(?<=>>)\d{1,11}'
         pattern_numbers = re.compile(regex_numbers)
 
-        # Populate Reply table. Filter unique numbers using set.
+        # Filter unique numbers using set.
         unique_ids = set()
         for numbers in re.finditer(regex, self.text):
             filtered_num = re.search(pattern_numbers, numbers.group(0)).group(0)
             unique_ids.add(int(filtered_num))
-
+        
+        # Populate Reply table. 
         for uid in unique_ids:
-            reply = Reply(to_post=Post.objects.get(pk=uid), from_post=self)
-            reply.save()
+            try:
+                reply = Reply(to_post=Post.objects.get(pk=uid), from_post=self)
+                replies = Reply.objects.filter(to_post=uid, from_post=self.pk) 
+                if not replies.exists(): # ignore duplicates
+                    reply.save()
+            except Post.DoesNotExist:
+                # this must be changed if we want to reply "future posts"
+                print("Not storing reply from post %d to post %d, since the post id %d doesn't exist." % (self.pk, uid, uid))
 
     # Create thumbnail from the original Image
     def make_thumbnail(self):
