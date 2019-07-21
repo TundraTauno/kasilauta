@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 {% load staticfiles %}
-    <div class="row">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'thread_detail.css' %}">
+
+    <div class="post-container">
     {% for p in thread.all_posts %}
-      <div id="{{p.pk}}" class="box">
+      <div id="{{p.id}}" class="box">
         <p><a href="#">#{{p.id}}</a> - {{p.created_at}}</p>
         
         {% if p.thumbnail %}
@@ -13,24 +16,31 @@
           <li hidden class="thumb-img">{{p.thumbnail.url}}</li>
         </ul>
         {% endif %}
-        <p>{{p.text}}</p>
-      </div>
-     
-      {% if p.get_replies.count %}
-      <p>replies:
-      {% for r in p.get_replies %}
+        <p class="post-text">{{p.text}}</p>
+    
+      {% with get_replies=p.get_replies %}
+      {% if get_replies %}
+      <p class="replies">replies:
+      {% for r in get_replies %}
         {% if r %} 
-        <a href="#">>>{{r.from_post.id}}</a>
+        <a href="#{{r.from_post.id}}">>>{{r.from_post.id}}</a>
         {% endif %}
       {% endfor %}
       </p>
       {% endif %}
+      {% endwith %}
+      </div>
 
       <hr>
       {% empty %}
         <p>There aren't any posts.</p>
     {% endfor %}
     </div>
+  
 	<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-	<script src="{% static 'thread_detail.js' %}" charset="utf-8"></script>
+  <script
+    src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+    integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+    crossorigin="anonymous"></script>
+    <script src="{% static 'thread_detail.js' %}" charset="utf-8"></script>
 {% endblock content %}
