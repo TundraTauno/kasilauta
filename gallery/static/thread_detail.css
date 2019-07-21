@@ -26,4 +26,7 @@ p.post-text {
   box-shadow: 2px 2px 6px 0px  rgba(0, 0, 0, 0.45);
   background-color: #a1adfa;
   position: absolute;
+  z-index: 10000;
+  position: fixed;
+  pointer-events: none;
 }
