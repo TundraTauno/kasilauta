@@ -1,0 +1,29 @@
+h1 {
+  color: red;
+}
+
+body {
+  background-color: #c9ccfb;
+	font: courier;
+}
+
+img {
+  box-shadow: 2px 2px 6px 0px  rgba(0, 0, 0, 0.45);
+}
+
+a {
+  color: red;
+}
+
+p.post-text {
+  color: black;
+}
+
+.hide-close-btn .ui-dialog-titlebar-close { display: none; }
+.hide-title .ui-dialog-titlebar { display: none; }
+
+.popup-post {
+  box-shadow: 2px 2px 6px 0px  rgba(0, 0, 0, 0.45);
+  background-color: #a1adfa;
+  position: absolute;
+}

@@ -48,3 +48,37 @@ $(document).ready(function() {
 //       console.log(number[0].substr(2));
     });    
 });
+
+// Popup dialog on hovering reply.
+// TODO: Not working properly.
+$(document).ready(function() {
+  
+  var regex = /(^|\W)>>\d{1,11}/;
+
+  $("div.post-container div p.replies a, div.post-container div p.post-text a")
+  .hover(function(event) {
+      var hovered = $(event.target).text().match(regex);
+      if (hovered) {
+        var number = hovered[0].substr(2);
+        if ($('#' + number).length == 0) {  // not a local link TODO: implement redirection.
+//           console.log("Hovering on non-local link.");
+          popup.dialog({ autoOpen: false }); // dummy placeholder for future
+        }
+        else { // local link, show popup to user
+//           console.log("Hovering on local link."); 
+          popup = $('#' + number).clone(false).prop("id", "temporary-id");
+          popup.dialog({
+              position: { my: "left bottom", at: "event", of: $(this)},
+              classes: { "ui-dialog": "hide-close-btn hide-title popup-post" },
+              modal: true
+          });
+        }
+      }
+    return false;
+  },
+    function(event) {
+      popup.dialog('destroy').remove();
+    }
+  );
+});
+
