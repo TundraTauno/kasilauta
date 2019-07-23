@@ -1,11 +1,13 @@
 import re
 
 from django.db import models
+from django.conf import settings
 from django.utils.text import Truncator
 
 from datetime import date
 # Get current user
 from django.contrib.auth import get_user_model
+from users.models import CustomUser
 
 # For saving thumbnails
 from PIL import Image as PIL_Image
@@ -20,6 +22,7 @@ VERY_SHORT_TEXT = 20
 class Board(models.Model):
     name        = models.CharField(max_length=20, unique=True)
     created_at  = models.DateTimeField(auto_now_add=True)
+    user        = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
     description = models.CharField(max_length=100, default='')
     
     def __str__(self):
@@ -61,6 +64,7 @@ class Thread(models.Model):
 
 class Post(models.Model):
     created_at  = models.DateTimeField(auto_now_add=True)
+    user        = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     original    = models.ImageField(upload_to = 'img', blank=True)
     thumbnail   = models.ImageField(upload_to = 'tmb', editable=False, blank=True)
     text        = models.TextField()

@@ -5,3 +5,4 @@ backup/*
 media/*
 !example.env
 gallery/migrations/*
+users/migrations/*
