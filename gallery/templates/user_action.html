@@ -1,0 +1,7 @@
+<form action="{% url 'user_action' board thread post %}" method="post" class="post-header"> 
+  {% csrf_token %}
+  <input type="submit" name="update" value="update">
+  <input type="submit" name="delete" value="delete">
+  <input type="submit" name="move" value="move">
+  <input type="submit" name="ban" value="ban">
+</form>

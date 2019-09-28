@@ -32,21 +32,39 @@ def board_view(request, name=None):
     return render(request, 'board_view.html', {'threads': threads})
 
 # Create new post.
-def create_post(request, board=None, id=None):
+def create_post(request, board=None, thread=None):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
             post = Post()
             post.text       =   form.cleaned_data['text']
-            post.thread     =   Thread.objects.get(pk=id)
+            post.thread     =   Thread.objects.get(pk=thread)
             post.thread.board = Board.objects.filter(name=board).first()
             post.original   =   request.FILES.get('original')
             post.user       =   request.user
             post.save()
-#             messages.success(request, "Thank you! You have successfully posted your picture!")
-            return HttpResponseRedirect('/' + board + '/' + str(id))
+            return HttpResponseRedirect('/' + board + '/' + str(thread))
     else:
         form = PostForm()
-        
+    
     return render(request, 'post_form.html', {'form': form})
 
+# User actions on post.
+def user_action(request, board=None, thread=None, post=None):
+    if request.method == 'POST':
+        if "delete" in request.POST:
+            print("delete")
+            p = Post.objects.get(pk=post)
+            p.delete()
+        elif "update" in request.POST:
+            print("update")
+        elif "ban" in request.POST:
+            print("ban")
+        elif "move" in request.POST:
+            print("move")
+        else:
+            print("User tried unknown action.")
+    else:
+        print("User tried unknown action.")
+        
+    return HttpResponseRedirect('/' + board + '/' + str(thread) + '#' + str(post))

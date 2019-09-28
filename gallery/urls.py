@@ -14,7 +14,9 @@ urlpatterns = [
         # thread detail 
         path('<slug:name>/<int:id>', views.thread_detail, name='thread_detail'),
         # post form
-        path('create_post/<slug:board>/<int:id>', views.create_post, name='create_post'),
+        path('create_post/<slug:board>/<int:thread>', views.create_post, name='create_post'),
+        # user actions on post
+        path('user_action/<slug:board>/<int:thread>/<int:post>', views.user_action, name='user_action'),
         ]
 
 # Static media files for test environment. Not suitable for production.

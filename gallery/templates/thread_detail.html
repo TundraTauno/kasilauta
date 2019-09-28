@@ -7,7 +7,7 @@
     <div class="post-container">
     {% for p in thread.all_posts %}
       <div id="{{p.id}}" class="box">
-        <p><a href="#">#{{p.id}}</a> - {{p.created_at}}</p>
+        <div><a href="#">#{{p.id}}</a> - {{p.created_at}} - {% include "user_action.html" with board=thread.board.name thread=thread.pk post=p.pk %}</div>
         
         {% if p.thumbnail %}
         <img src="{{p.thumbnail.url}}" alt="{{p.text}}"/>

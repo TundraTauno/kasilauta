@@ -13,6 +13,15 @@ img {
 
 a {
   color: red;
+  text-decoration: none;
+}
+
+.post-header {
+  display: inline;
+}
+
+.post-timestamp {
+  color: grey;
 }
 
 p.post-text {
