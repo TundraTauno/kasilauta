@@ -24,6 +24,8 @@
     <p>There aren't any threads.</p>
 {% endfor %}
 
+{% include "thread_form.html" with board=board.name %}
+
 {% endwith %}
 
 {% endblock content %}
