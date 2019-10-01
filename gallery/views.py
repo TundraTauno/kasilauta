@@ -30,7 +30,7 @@ def board_view(request, name=None):
     board = get_object_or_404(Board, name=name)
     threads = Thread.objects.filter(board__name=name)
     form = PostForm()
-    return render(request, 'board_view.html', {'threads': threads, 'form': form})
+    return render(request, 'board_view.html', {'board': board, 'threads': threads, 'form': form})
 
 # Create new post on thread view.
 def create_post(request, board=None, thread=None):
@@ -65,10 +65,13 @@ def user_action(request, board=None, thread=None, post=None):
         if "delete" in request.POST:
             print("delete")
             p = Post.objects.get(pk=post)
-            t = Thread.objects.get(pk=p.thread.pk)
             p.delete()
-            if t.first_post.pk == p.pk:
+
+            # Post count in thread is 0, delete thread.
+            t = Thread.objects.get(pk=thread)
+            if not Post.objects.filter(thread=t.pk).count():
                 t.delete()
+
         elif "update" in request.POST:
             print("update")
         elif "ban" in request.POST:

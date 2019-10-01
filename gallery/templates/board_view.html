@@ -4,28 +4,26 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'main_view.css' %}">
 
-{% with board=threads.first.board %}
-
 {% if board.name %}
   <h1>Threads of board /{{board.name}}/ - {{board.description}}</h1>
 {% endif %}
 
 {% for t in threads %}
-  {% with first_post=t.first_post %}
-  {% if first_post.thumbnail %}
-    <a href="{% url 'thread_detail' board.name first_post.thread.id %}">
-      <img src="{{first_post.thumbnail.url}}" alt="{{p}}"/>
-    </a>
-  {% else %}
-    <a href="{% url 'thread_detail' board.name first_post.thread.id %}">{{first_post}}</a>
+  {% if t.first_post %}
+    {% with first_post=t.first_post %}
+    {% if first_post.thumbnail %}
+      <a href="{% url 'thread_detail' board.name first_post.thread.id %}">
+        <img src="{{first_post.thumbnail.url}}" alt="{{p}}"/>
+      </a>
+    {% else %}
+      <a href="{% url 'thread_detail' board.name first_post.thread.id %}">{{first_post}}</a>
+    {% endif %}
+    {% endwith %}
   {% endif %}
-  {% endwith %}
   {% empty %}
     <p>There aren't any threads.</p>
 {% endfor %}
 
 {% include "thread_form.html" with board=board.name %}
-
-{% endwith %}
 
 {% endblock content %}

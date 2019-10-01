@@ -14,18 +14,20 @@
 <h1>Threads: </h1>
 <div class="row">
 {% for t in threads %}
-  {% with first_post=t.first_post %}
-  {% if first_post.thumbnail %}
-	<div class="img-box">
-		<a href="{% url 'thread_detail' first_post.thread.board.name first_post.thread.id %}"> 
-		<img class="img" src="{{first_post.thumbnail.url}}" alt="{{first_post}}"></img>
-		<div class="img-text">{{first_post}}</div>
-		</a>
-	</div>
-  {% else %}
-    <a href="{% url 'thread_detail' first_post.thread.board.name first_post.thread.id %}">{{first_post}}</a>
+  {% if t.first_post %}
+    {% with first_post=t.first_post %}
+    {% if first_post.thumbnail %}
+    <div class="img-box">
+      <a href="{% url 'thread_detail' first_post.thread.board.name first_post.thread.id %}"> 
+      <img class="img" src="{{first_post.thumbnail.url}}" alt="{{first_post}}"></img>
+      <div class="img-text">{{first_post}}</div>
+      </a>
+    </div>
+    {% else %}
+      <a href="{% url 'thread_detail' first_post.thread.board.name first_post.thread.id %}">{{first_post}}</a>
+    {% endif %}
+    {% endwith %}
   {% endif %}
-  {% endwith %}
   {% empty %}
     <p>There aren't any threads.</p>
 {% endfor %}
