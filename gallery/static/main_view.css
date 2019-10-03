@@ -1,6 +1,7 @@
 h1 {
   color: red;
 	font-family: courier;
+  text-shadow: 2px 2px black;
 }
 
 body {
@@ -9,7 +10,6 @@ body {
 }
 
 img {
-  box-shadow: 2px 2px 6px 0px  rgba(0, 0, 0, 0.45);
 }
 
 a {
@@ -33,22 +33,32 @@ p {
   max-height: 250px;
   min-width: 250px;
   min-height: 250px;
-	padding: 1px;
+	margin: 1px;
+  background-color: #d9dbfb;
+  box-shadow: 2px 2px 6px 0px  rgba(0, 0, 0, 0.45);
 }
 
-.img {
-	position: absolute;
+.img-box img {
   max-width: 250px;
   max-height: 250px;
-  min-width: 250px;
-  min-height: 250px;
+ 
+  /* center image */
+  display: block;
+  height: auto; /* maintain aspect ratio */
+  margin: auto; /* optional centering of image */
 }
 
 .img-text {
+  text-shadow: 1px 1px black;
+
 	position: absolute;
   color: white;
   background-color: rgba(0, 0, 0, 0.6);
   width: 250px;
   height: 40px;
-	bottom:0px;
+	bottom: 0px;
+  
+  display: table-cell; 
+  vertical-align: middle; 
+  text-align: center;
 }
