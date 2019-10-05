@@ -1,10 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
 
 from .models import Post, Thread, Board
 from .forms import PostForm
-
-# Create your views here.
 
 # Front page.
 # example: /
@@ -43,6 +42,7 @@ def create_post(request, board=None, thread=None):
             post.thread.board = Board.objects.filter(name=board).first()
             post.original   =   request.FILES.get('original')
             post.user       =   request.user
+            post.ip_addr    =   request.META['REMOTE_ADDR']
             post.save()
             return HttpResponseRedirect('/' + board + '/' + str(thread))
     else:
@@ -57,6 +57,7 @@ def create_thread(request, board=None):
     thread = Thread()
     thread.board = b
     thread.save()
+    messages.info(request, 'Thread created')
     return create_post(request, b.name, thread.pk)
 
 # User actions on post.
@@ -66,11 +67,14 @@ def user_action(request, board=None, thread=None, post=None):
             print("delete")
             p = Post.objects.get(pk=post)
             p.delete()
+            messages.info(request, 'Post deleted')
 
             # Post count in thread is 0, delete thread.
             t = Thread.objects.get(pk=thread)
             if not Post.objects.filter(thread=t.pk).count():
                 t.delete()
+                messages.info(request, 'Thread deleted')
+                return HttpResponseRedirect('/' + board)
 
         elif "update" in request.POST:
             print("update")
