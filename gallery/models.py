@@ -67,8 +67,9 @@ class Post(models.Model):
     user        = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     original    = models.ImageField(upload_to = 'img', blank=True)
     thumbnail   = models.ImageField(upload_to = 'tmb', editable=False, blank=True)
-    text        = models.TextField()
+    text        = models.TextField(blank=True)
     thread      = models.ForeignKey(Thread, on_delete=models.CASCADE)
+    ip_addr     = models.GenericIPAddressField(protocol='both', default='')
 
     def save(self, *args, **kwargs):
         if not self.make_thumbnail():

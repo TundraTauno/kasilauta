@@ -5,7 +5,7 @@ from .models import Post, Thread, Board
 
 # How to show Post model in admin view
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('text', 'created_at', 'thumbnail', 'original') 
+    list_display = ('text', 'created_at', 'thumbnail', 'ip_addr', 'original') 
 
 class ThreadAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'board', 'created_at') 
