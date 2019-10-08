@@ -3,14 +3,15 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
 from .models import Post, Thread, Board
-from .forms import PostForm
+from .forms import PostForm, BoardForm
 
 # Front page.
 # example: /
 def index(request):
     threads = Thread.objects.all()
     boards = Board.objects.all()
-    return render(request, 'main_view.html', {'threads': threads, 'boards': boards})
+    form = BoardForm()
+    return render(request, 'main_view.html', {'threads': threads, 'boards': boards, 'form': form})
 
 # Detailed view for thread.
 # name  - board name
@@ -59,6 +60,22 @@ def create_thread(request, board=None):
     thread.save()
     messages.info(request, 'Thread created')
     return create_post(request, b.name, thread.pk)
+
+def create_board(request):
+    if request.method == 'POST':
+        form = BoardForm(request.POST)
+        if form.is_valid():
+            board = Board()
+            board.name          = form.cleaned_data['name']
+            board.description   = form.cleaned_data['description']
+            board.user          = request.user
+            board.save()
+            messages.info(request, 'Board created')
+            return HttpResponseRedirect('/' + board.name) 
+    else:
+        form = BoardForm()
+
+    return render(request, 'board_form.html', {'form': form})
 
 # User actions on post.
 def user_action(request, board=None, thread=None, post=None):

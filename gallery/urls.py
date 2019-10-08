@@ -15,6 +15,8 @@ urlpatterns = [
         path('<board_slug:name>/', views.board_view, name='board_view'),
         # thread detail 
         path('<board_slug:name>/<int:id>', views.thread_detail, name='thread_detail'),
+        # board form
+        path('create_board', views.create_board, name='create_board'),
         # thread form
         path('create_thread/<board_slug:board>', views.create_thread, name='create_thread'),
         # post form
