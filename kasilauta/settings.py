@@ -30,6 +30,11 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
 
+# Captcha keys (test keys by default)
+RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY', default='6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI')
+RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY', default='6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe')
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,7 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'gallery',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+
+    # 3rd party
+    'captcha'
 ]
 
 MIDDLEWARE = [
